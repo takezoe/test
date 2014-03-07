@@ -1,0 +1,3 @@
+[submodule "poi4s"]
+	path = poi4s
+	url = https://github.com/takezoe/poi4s.git
