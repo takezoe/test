@@ -23,6 +23,3 @@ test1
 - AAA
 - BBB
 - CCC
-- DDD
-- EEE
-- FFF
