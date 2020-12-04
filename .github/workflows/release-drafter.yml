@@ -1,15 +1,15 @@
-name: Release Drafter
+name: update_release_notes
 
 on:
   push:
-    # branches to consider in the event; optional, defaults to all
     branches:
       - master
-
+  
 jobs:
   update_release_draft:
     runs-on: ubuntu-latest
     steps:
-      - uses: release-drafter/release-drafter@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: checkout
+        uses: actions/checkout@v1
+      - name: run-script
+        run: ls -al
