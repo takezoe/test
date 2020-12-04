@@ -19,7 +19,7 @@ jobs:
           branch: update-release-notes
           delete-branch: true
           commit-message: Update release notes
-          title: [Example] Update release notes
+          title: Update release notes
       - name: Check outputs
         run: |
           echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
