@@ -37,7 +37,8 @@ release_notes <<= new_release_notes
 release_notes <<= "\n"
 release_notes <<= notes[2..-1]
 
-TMP_RELEASE_NOTES_FILE = "target/#{RELEASE_NOTES_FILE}.md"
+Dir.mkdir('target')
+TMP_RELEASE_NOTES_FILE = "target/#{RELEASE_NOTES_FILE}.tmp"
 File.delete(TMP_RELEASE_NOTES_FILE) if File.exists?(TMP_RELEASE_NOTES_FILE)
 File.write("#{TMP_RELEASE_NOTES_FILE}", release_notes.join)
 
