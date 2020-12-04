@@ -13,7 +13,13 @@ jobs:
         uses: actions/checkout@v2
       - name: Get version
         id: vars
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+        run: |
+          echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+          echo ::set_output name=BRANCH::${git branch --contains tags/v1.0.1 | grep -v HEAD | xargs}
+      - name: Debug
+        run: |
+          echo "VERSION: ${{ steps.vars.outputs.VERSION }}"
+          echo "BRANCH: ${{ steps.vars.outputs.BRANCH }}"
       - name: Update release notes
         run: echo "test ${{ steps.vars.outputs.VERSION }}" >> test.txt
       - name: Create Pull Request
@@ -24,7 +30,7 @@ jobs:
           delete-branch: true
           commit-message: Update release notes for ${{ steps.vars.outputs.VERSION }}
           title: Update release notes for ${{ steps.vars.outputs.VERSION }}
-          base: master
+          base: ${{ steps.vars.outputs.BRANCH }}
       - name: Check outputs
         run: |
           echo "Pull Request Number - ${{ steps.pr.outputs.pull-request-number }}"
