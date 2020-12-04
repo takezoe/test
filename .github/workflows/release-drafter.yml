@@ -24,7 +24,7 @@ jobs:
           echo "VERSION: ${{ steps.vars.outputs.VERSION }}"
           echo "BRANCH: ${{ steps.vars.outputs.BRANCH }}"
       - name: Update release notes
-        run: echo "test ${{ steps.vars.outputs.VERSION }}" >> test.txt
+        run: ruby update_release_notes.rb ${{ steps.vars.outputs.VERSION }}
       - name: Create Pull Request
         id: pr
         uses: peter-evans/create-pull-request@v3
