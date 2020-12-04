@@ -9,7 +9,19 @@ jobs:
   update_release_draft:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v1
-      - name: run-script
-        run: ls -al
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Update release notes
+        run:
+          echo "test" >> test.txt
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        branch: update-release-notes
+        delete-branch: true
+        commit-message: Update release notes
+        title: [Example] Update release notes
+      - name: Check outputs
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+          
