@@ -24,6 +24,7 @@ jobs:
           delete-branch: true
           commit-message: Update release notes for $GITHUB_REF
           title: Update release notes for $GITHUB_REF
+          base: master
       - name: Check outputs
         run: |
           echo "Pull Request Number - ${{ steps.pr.outputs.pull-request-number }}"
