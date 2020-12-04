@@ -12,13 +12,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Update release notes
-        run:
-          echo "test" >> test.txt
+        run: echo "test" >> test.txt
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
           branch: update-release-notes
           delete-branch: true
+          commit-message: Update release notes
           title: [Example] Update release notes
       - name: Check outputs
         run: |
