@@ -2,8 +2,8 @@ name: update_release_notes
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - 'v*'
   
 jobs:
   update_release_draft:
@@ -11,19 +11,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Get version
-        id: vars
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+#      - name: Get version
+#        id: vars
+#        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Update release notes
-        run: echo "test ${{ steps.vars.output.sha_short }}" >> test.txt
+        run: echo "test $GITHUB_REF" >> test.txt
       - name: Create Pull Request
         id: pr
         uses: peter-evans/create-pull-request@v3
         with:
-          branch: update-release-notes-${{ steps.vars.outputs.sha_short }}
+          branch: update-release-notes-$GITHUB_REF
           delete-branch: true
-          commit-message: Update release notes for ${{ steps.vars.outputs.sha_short }}
-          title: Update release notes for ${{ steps.vars.outputs.sha_short }}
+          commit-message: Update release notes for $GITHUB_REF
+          title: Update release notes for $GITHUB_REF
       - name: Check outputs
         run: |
           echo "Pull Request Number - ${{ steps.pr.outputs.pull-request-number }}"
