@@ -11,17 +11,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Get version
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Update release notes
-        run: echo "test" >> test.txt
+        run: echo "test ${{ steps.vars.output.sha_short }}" >> test.txt
       - name: Create Pull Request
+        id: pr
         uses: peter-evans/create-pull-request@v3
         with:
-          branch: update-release-notes
+          branch: update-release-notes-${{ steps.vars.output.sha_short }}
           delete-branch: true
-          commit-message: Update release notes
-          title: Update release notes
+          commit-message: Update release notes for ${{ steps.vars.output.sha_short }}
+          title: Update release notes for ${{ steps.vars.output.sha_short }}
       - name: Check outputs
         run: |
-          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
-          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
-          
+          echo "Pull Request Number - ${{ steps.pr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.pr.outputs.pull-request-url }}"
+
