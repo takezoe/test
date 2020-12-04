@@ -11,14 +11,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Get version
+      - name: Get branch name
+        uses: nelonoel/branch-name@v1.0.1
+      - name: Get tag name
         id: vars
         run: |
-          git branch -a --contains tags/${GITHUB_REF#refs/tags/}
+          echo $BRANCH_NAME
           echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
-          echo ::set_output name=BRANCH::$(git branch --contains tags/v1.0.1 | grep -v HEAD | xargs)
+          echo ::set-output name=BRANCH::${BRANCH_NAME}
       - name: Debug
         run: |
           echo "VERSION: ${{ steps.vars.outputs.VERSION }}"
