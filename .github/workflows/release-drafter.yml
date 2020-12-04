@@ -11,19 +11,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-#      - name: Get version
-#        id: vars
-#        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      - name: Get version
+        id: vars
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
       - name: Update release notes
-        run: echo "test $GITHUB_REF" >> test.txt
+        run: echo "test ${{ steps.vars.outputs.VERSION }}" >> test.txt
       - name: Create Pull Request
         id: pr
         uses: peter-evans/create-pull-request@v3
         with:
-          branch: update-release-notes-$GITHUB_REF
+          branch: update-release-notes-${{ steps.vars.outputs.VERSION }}
           delete-branch: true
-          commit-message: Update release notes for $GITHUB_REF
-          title: Update release notes for $GITHUB_REF
+          commit-message: Update release notes for ${{ steps.vars.outputs.VERSION }}
+          title: Update release notes for ${{ steps.vars.outputs.VERSION }}
           base: master
       - name: Check outputs
         run: |
