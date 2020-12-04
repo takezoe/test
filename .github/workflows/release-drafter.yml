@@ -16,6 +16,7 @@ jobs:
       - name: Get version
         id: vars
         run: |
+          git branch --contains tags/${GITHUB_REF#refs/tags/}
           echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
           echo ::set_output name=BRANCH::$(git branch --contains tags/v1.0.1 | grep -v HEAD | xargs)
       - name: Debug
