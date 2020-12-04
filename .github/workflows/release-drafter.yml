@@ -11,12 +11,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Get branch name
-        uses: nelonoel/branch-name@v1.0.1
-      - name: Get tag name
+      - name: Get version
         id: vars
         run: |
-          echo $BRANCH_NAME
+          git branch -a --contains tags/${GITHUB_REF#refs/tags/}
           echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
           echo ::set-output name=BRANCH::${BRANCH_NAME}
       - name: Debug
