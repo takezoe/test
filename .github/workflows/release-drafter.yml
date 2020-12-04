@@ -18,7 +18,7 @@ jobs:
         run: |
           BRANCH_NAME=`git branch -a --contains tags/${GITHUB_REF#refs/tags/} | grep -v HEAD | xargs`
           echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
-          echo ::set-output name=BRANCH::${BRANCH_NAME#remotes/origin}
+          echo ::set-output name=BRANCH::${BRANCH_NAME#remotes/origin/}
       - name: Debug
         run: |
           echo "VERSION: ${{ steps.vars.outputs.VERSION }}"
