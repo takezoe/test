@@ -10,11 +10,11 @@ next_tag = ARGV[0]
 next_version = next_tag.sub("v", "")
 puts "next version: #{next_version}"
 
+abort("Can't use empty version string") if next_version.empty?
+
 last_tag = `git describe --tags --abbrev=0 #{next_tag}^`.chomp
 last_version = last_tag.sub("v", "")
 puts "last version: #{last_version}"
-
-abort("Can't use empty version string") if next_version.empty?
 
 logs = `git log #{last_tag}..HEAD --pretty=format:'%h %s'`
 # Add links to GitHub issues
@@ -38,6 +38,7 @@ release_notes <<= "\n"
 release_notes <<= notes[2..-1]
 
 Dir.mkdir('target')
+
 TMP_RELEASE_NOTES_FILE = "target/#{RELEASE_NOTES_FILE}.tmp"
 File.delete(TMP_RELEASE_NOTES_FILE) if File.exists?(TMP_RELEASE_NOTES_FILE)
 File.write("#{TMP_RELEASE_NOTES_FILE}", release_notes.join)
